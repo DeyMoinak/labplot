@@ -864,7 +864,8 @@ void InfoElementPrivate::retransform() {
 		const auto* curve = q->markerpoints.at(i).curve;
 		if (curve && curve->name() == connectionLineCurveName) {
 			bool visible;
-			pointPos = q->cSystem->mapLogicalToScene(q->markerpoints.at(i).customPoint->positionLogical(),
+			auto* cSystem = q->plot()->coordinateSystem(q->markerpoints.at(i).customPoint->coordinateSystemIndex());
+			pointPos = cSystem->mapLogicalToScene(q->markerpoints.at(i).customPoint->positionLogical(),
 					visible, AbstractCoordinateSystem::MappingFlag::SuppressPageClipping);
 			break;
 		}
