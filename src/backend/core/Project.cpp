@@ -722,9 +722,11 @@ void Project::retransformElements(AbstractAspect* aspect) {
 			// the plots will then recursive retransform the childs of them
 			const auto& elements = w->children<WorksheetElement>(ChildIndexFlag::Recursive | ChildIndexFlag::IncludeHidden);
 			for (auto* e : elements) {
-				if (e->type() == AspectType::CartesianPlot)
-					static_cast<CartesianPlot*>(e)->retransformAll();
-				else
+				if (e->type() == AspectType::CartesianPlot) {
+					static_cast<CartesianPlot*>(e)->retransform(); // important to retransform private
+					static_cast<CartesianPlot*>(e)->retransformScales();
+					static_cast<CartesianPlot*>(e)->retransform(); // important to retransform all childs
+				} else
 					e->retransform();
 			}
 		}
